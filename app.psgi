@@ -16,7 +16,7 @@ __DATA__
 <form method="post" action="/post">
   <div>
     <span>운송장 번호</span>
-    <a href="#" id="waybill" data-type="waybill">비어있음</a>
+    <a href="#" id="waybill" data-type="waybill"></a>
   </div>
   <div>
     <span>주소</span>
