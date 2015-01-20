@@ -30,7 +30,15 @@ $.extend(Waybill.prototype, {
     return $(element).html("<div>" + value.parcel_service + "</div>\n<div>" + value.number + "</div>");
   },
   html2value: function(html) {},
-  value2str: function(value) {},
+  value2str: function(value) {
+    var num, parcel, str;
+    str = '';
+    for (parcel in value) {
+      num = value[parcel];
+      str = "" + parcel + ":" + num + ";";
+    }
+    return str;
+  },
   str2value: function(str) {},
   value2input: function(value) {
     if (!value) {

@@ -4,9 +4,17 @@ $(function() {
     mode: 'inline',
     url: '/post',
     title: 'oops',
-    values: {
+    value: {
       parcel_service: 'Fedex',
       number: '123456'
+    },
+    display: function(value) {
+      var html;
+      if (!value) {
+        return $(this).empty();
+      }
+      html = "" + ($('<div>').text(value.parcel_service).html()) + ",\n" + ($('<div>').text(value.number).html());
+      return $(this).html(html);
     }
   });
   return $('#address').editable({
@@ -17,6 +25,14 @@ $(function() {
       city: "Moscow",
       street: "Lenina",
       building: "15"
+    },
+    display: function(value) {
+      var html;
+      if (!value) {
+        return $(this).empty();
+      }
+      html = "<b>" + ($('<div>').text(value.city).html()) + "</b>,\n" + ($('<div>').text(value.street).html()) + ",\n" + ($('<div>').text(value.building).html());
+      return $(this).html(html);
     }
   });
 });

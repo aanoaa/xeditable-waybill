@@ -26,6 +26,10 @@ $.extend Waybill.prototype,
     """
   html2value: (html) ->
   value2str: (value) ->
+    str = ''
+    for parcel, num of value
+      str = "#{parcel}:#{num};"
+    return str
   str2value: (str) ->
   value2input: (value) ->
     return unless value
