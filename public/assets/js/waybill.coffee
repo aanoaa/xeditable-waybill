@@ -2,10 +2,7 @@
 <a href="#" id="waybill" data-type="waybill" data-name="key">awesome</a>
 <script>
   $('#waybill').editable
-    source: [
-      {value:1, text: 'Fedex'},
-      {value:2, text: 'DHL'}
-    ]
+    source: ['Fedex', 'DHL']
     value:
       parcel: 'Fedex'
       number: '123456'
@@ -13,9 +10,6 @@
 ###
 Waybill = (opts) ->
   @sourceData = opts.source
-  @sourceMap = {}
-  for item in @sourceData
-    @sourceMap[item.value] = item.text
   @init('waybill', opts, Waybill.defaults)
   
 # inherit from Abstract input
@@ -27,27 +21,25 @@ $.extend Waybill.prototype,
     @$list  = @$tpl.find('select')
     @$list.empty()
     fillItems = ($el, data) ->
-      $el.append($('<option>', {value: item.value}).text(item.text)) for item in data
+      $el.append($('<option>', {value: '직접반납'}).text('직접반납'))
+      $el.append($('<option>', {value: item}).text(item)) for item in data
       return $el
     fillItems(@$list, @sourceData)
   value2html: (value, element) ->
     return $(element).empty() unless value
-    $(element).html "#{value.parcel},#{value.number}"
+    $(element).html [value.parcel,value.number].join(',')
   html2value: (html) ->
     [parcel, number] = html.split(',')
     return { parcel: parcel, number: number }
   value2str: (value) ->
-    return "#{value.parcel},#{value.number}"
+    return [value.parcel,value.number].join(',')
   str2value: (str) -> str
   value2input: (value) ->
     return unless value
-    for item in @sourceData
-      if item.text is value.parcel
-        @$list.val(item.value)
-        break
+    @$list.val(value.parcel)
     @$input.filter('[name="number"]').val(value.number)
   input2value: ->
-    parcel: @sourceMap[@$list.val()]
+    parcel: @$list.val()
     number: @$input.filter('[name="number"]').val()
   activate: ->
     @$list.focus()
@@ -59,7 +51,7 @@ Waybill.defaults = $.extend {}, $.fn.editabletypes.abstractinput.defaults,
   tpl: '''
     <div class="editable-waybill">
       <label><select name="parcel"></select></label>
-      <label><input type="text" name="number"></label>
+      <label><input type="text" name="number" placeholder="운송장번호"></label>
     </div>
   '''
   inputclass: ''

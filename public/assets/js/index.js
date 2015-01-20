@@ -2,15 +2,7 @@
 $(function() {
   $('#waybill').editable({
     mode: 'inline',
-    source: [
-      {
-        value: 1,
-        text: 'Fedex'
-      }, {
-        value: 2,
-        text: 'DHL'
-      }
-    ]
+    source: ['Fedex', 'DHL']
   });
   return $('#address').editable({
     mode: 'inline',

@@ -1,10 +1,7 @@
 $ ->
   $('#waybill').editable
     mode: 'inline'
-    source: [
-      {value: 1, text: 'Fedex'},
-      {value: 2, text: 'DHL'}
-    ]
+    source: ['Fedex', 'DHL']
 
   $('#address').editable
     mode: 'inline'

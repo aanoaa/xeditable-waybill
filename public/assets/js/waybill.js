@@ -4,10 +4,7 @@
 <a href="#" id="waybill" data-type="waybill" data-name="key">awesome</a>
 <script>
   $('#waybill').editable
-    source: [
-      {value:1, text: 'Fedex'},
-      {value:2, text: 'DHL'}
-    ]
+    source: ['Fedex', 'DHL']
     value:
       parcel: 'Fedex'
       number: '123456'
@@ -16,14 +13,7 @@
 var Waybill;
 
 Waybill = function(opts) {
-  var item, _i, _len, _ref;
   this.sourceData = opts.source;
-  this.sourceMap = {};
-  _ref = this.sourceData;
-  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-    item = _ref[_i];
-    this.sourceMap[item.value] = item.text;
-  }
   return this.init('waybill', opts, Waybill.defaults);
 };
 
@@ -37,11 +27,14 @@ $.extend(Waybill.prototype, {
     this.$list.empty();
     fillItems = function($el, data) {
       var item, _i, _len;
+      $el.append($('<option>', {
+        value: '직접반납'
+      }).text('직접반납'));
       for (_i = 0, _len = data.length; _i < _len; _i++) {
         item = data[_i];
         $el.append($('<option>', {
-          value: item.value
-        }).text(item.text));
+          value: item
+        }).text(item));
       }
       return $el;
     };
@@ -51,7 +44,7 @@ $.extend(Waybill.prototype, {
     if (!value) {
       return $(element).empty();
     }
-    return $(element).html("" + value.parcel + "," + value.number);
+    return $(element).html([value.parcel, value.number].join(','));
   },
   html2value: function(html) {
     var number, parcel, _ref;
@@ -62,29 +55,21 @@ $.extend(Waybill.prototype, {
     };
   },
   value2str: function(value) {
-    return "" + value.parcel + "," + value.number;
+    return [value.parcel, value.number].join(',');
   },
   str2value: function(str) {
     return str;
   },
   value2input: function(value) {
-    var item, _i, _len, _ref;
     if (!value) {
       return;
     }
-    _ref = this.sourceData;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      item = _ref[_i];
-      if (item.text === value.parcel) {
-        this.$list.val(item.value);
-        break;
-      }
-    }
+    this.$list.val(value.parcel);
     return this.$input.filter('[name="number"]').val(value.number);
   },
   input2value: function() {
     return {
-      parcel: this.sourceMap[this.$list.val()],
+      parcel: this.$list.val(),
       number: this.$input.filter('[name="number"]').val()
     };
   },
@@ -101,7 +86,7 @@ $.extend(Waybill.prototype, {
 });
 
 Waybill.defaults = $.extend({}, $.fn.editabletypes.abstractinput.defaults, {
-  tpl: '<div class="editable-waybill">\n  <label><select name="parcel"></select></label>\n  <label><input type="text" name="number"></label>\n</div>',
+  tpl: '<div class="editable-waybill">\n  <label><select name="parcel"></select></label>\n  <label><input type="text" name="number" placeholder="운송장번호"></label>\n</div>',
   inputclass: '',
   source: []
 });
