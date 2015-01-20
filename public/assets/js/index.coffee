@@ -1,15 +1,17 @@
 $ ->
   $('#waybill').editable
     mode: 'inline'
-    url: '/post'
-    title: 'oops'
+    source: [
+      {value: 1, text: 'Fedex'},
+      {value: 2, text: 'DHL'}
+    ]
     value:
-      parcel_service: 'Fedex'
+      parcel: 'Fedex'
       number: '123456'
     display: (value) ->
       return $(@).empty() unless value
       html = """
-      #{$('<div>').text(value.parcel_service).html()},
+      #{$('<div>').text(value.parcel).html()},
       #{$('<div>').text(value.number).html()}
       """
       $(@).html(html)

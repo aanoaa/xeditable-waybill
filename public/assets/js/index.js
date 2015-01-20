@@ -2,10 +2,17 @@
 $(function() {
   $('#waybill').editable({
     mode: 'inline',
-    url: '/post',
-    title: 'oops',
+    source: [
+      {
+        value: 1,
+        text: 'Fedex'
+      }, {
+        value: 2,
+        text: 'DHL'
+      }
+    ],
     value: {
-      parcel_service: 'Fedex',
+      parcel: 'Fedex',
       number: '123456'
     },
     display: function(value) {
@@ -13,7 +20,7 @@ $(function() {
       if (!value) {
         return $(this).empty();
       }
-      html = "" + ($('<div>').text(value.parcel_service).html()) + ",\n" + ($('<div>').text(value.number).html());
+      html = "" + ($('<div>').text(value.parcel).html()) + ",\n" + ($('<div>').text(value.number).html());
       return $(this).html(html);
     }
   });
