@@ -32,20 +32,19 @@ $.extend Waybill.prototype,
     fillItems(@$list, @sourceData)
   value2html: (value, element) ->
     return $(element).empty() unless value
-    $(element).html """
-      <div>#{@sourceMap[value.parcel]}</div>
-      <div>#{value.number}</div>
-    """
+    $(element).html "#{value.parcel},#{value.number}"
   html2value: (html) ->
+    [parcel, number] = html.split(',')
+    return { parcel: parcel, number: number }
   value2str: (value) ->
-    str = ''
-    for parcel, num of value
-      str = "#{parcel}:#{num};"
-    return str
-  str2value: (str) ->
+    return "#{value.parcel},#{value.number}"
+  str2value: (str) -> str
   value2input: (value) ->
     return unless value
-    @$list.val(value.parcel)
+    for item in @sourceData
+      if item.text is value.parcel
+        @$list.val(item.value)
+        break
     @$input.filter('[name="number"]').val(value.number)
   input2value: ->
     parcel: @sourceMap[@$list.val()]

@@ -51,24 +51,35 @@ $.extend(Waybill.prototype, {
     if (!value) {
       return $(element).empty();
     }
-    return $(element).html("<div>" + this.sourceMap[value.parcel] + "</div>\n<div>" + value.number + "</div>");
+    return $(element).html("" + value.parcel + "," + value.number);
   },
-  html2value: function(html) {},
+  html2value: function(html) {
+    var number, parcel, _ref;
+    _ref = html.split(','), parcel = _ref[0], number = _ref[1];
+    return {
+      parcel: parcel,
+      number: number
+    };
+  },
   value2str: function(value) {
-    var num, parcel, str;
-    str = '';
-    for (parcel in value) {
-      num = value[parcel];
-      str = "" + parcel + ":" + num + ";";
-    }
+    return "" + value.parcel + "," + value.number;
+  },
+  str2value: function(str) {
     return str;
   },
-  str2value: function(str) {},
   value2input: function(value) {
+    var item, _i, _len, _ref;
     if (!value) {
       return;
     }
-    this.$list.val(value.parcel);
+    _ref = this.sourceData;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      item = _ref[_i];
+      if (item.text === value.parcel) {
+        this.$list.val(item.value);
+        break;
+      }
+    }
     return this.$input.filter('[name="number"]').val(value.number);
   },
   input2value: function() {

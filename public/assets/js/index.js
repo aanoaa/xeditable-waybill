@@ -10,19 +10,7 @@ $(function() {
         value: 2,
         text: 'DHL'
       }
-    ],
-    value: {
-      parcel: 'Fedex',
-      number: '123456'
-    },
-    display: function(value) {
-      var html;
-      if (!value) {
-        return $(this).empty();
-      }
-      html = "" + ($('<div>').text(value.parcel).html()) + ",\n" + ($('<div>').text(value.number).html());
-      return $(this).html(html);
-    }
+    ]
   });
   return $('#address').editable({
     mode: 'inline',
